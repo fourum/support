@@ -1,0 +1,20 @@
+{
+    "name": "fourum/support",
+    "description": "Supporting classes for Fourum and Fourum packages.",
+    "require": {
+        "illuminate/support": "~5.0"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Fourum\\Support\\": "./src"
+        }
+    },
+
+    "authors": [
+        {
+            "name": "Will Pillar",
+            "email": "me@willpillar.com"
+        }
+    ]
+}
