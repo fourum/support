@@ -16,5 +16,6 @@
             "name": "Will Pillar",
             "email": "me@willpillar.com"
         }
-    ]
+    ],
+    "minimum-stability": "dev"
 }
