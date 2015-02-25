@@ -9,8 +9,14 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function setupNotifications($class)
     {
-        $notificationFactory = $this->app->make('Fourum\Notification\NotificationFactory');
+        $type = $class::TYPE;
+        $typeRepository = $this->app->make('Fourum\Notification\Type\TypeRepositoryInterface');
 
+        if (! $typeRepository->hasType($type)) {
+            $typeRepository->createAndSave(['name' => $type]);
+        }
+
+        $notificationFactory = $this->app->make('Fourum\Notification\NotificationFactory');
         $notificationFactory->addType($class::TYPE, function ($notifier, $notifiable, $read, $timestamp) use ($class) {
             return new $class($notifier, $notifiable, $read, $timestamp);
         });
