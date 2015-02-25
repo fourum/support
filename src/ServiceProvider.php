@@ -2,6 +2,8 @@
 
 namespace Fourum\Support;
 
+use Illuminate\Support\Facades\Schema;
+
 abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -12,8 +14,10 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
         $type = constant($class . "::TYPE");
         $typeRepository = $this->app->make('Fourum\Notification\Type\TypeRepositoryInterface');
 
-        if (! $typeRepository->hasType($type)) {
-            $typeRepository->createAndSave(['name' => $type]);
+        if (Schema::hasTable('notification_types')) {
+            if (! $typeRepository->hasType($type)) {
+                $typeRepository->createAndSave(['name' => $type]);
+            }
         }
 
         $notificationFactory = $this->app->make('Fourum\Notification\NotificationFactory');
