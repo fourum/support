@@ -9,7 +9,7 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
      */
     protected function setupNotifications($class)
     {
-        $type = $class::TYPE;
+        $type = constant($class . "::TYPE");
         $typeRepository = $this->app->make('Fourum\Notification\Type\TypeRepositoryInterface');
 
         if (! $typeRepository->hasType($type)) {
@@ -17,7 +17,7 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
         }
 
         $notificationFactory = $this->app->make('Fourum\Notification\NotificationFactory');
-        $notificationFactory->addType($class::TYPE, function ($notifier, $notifiable, $read, $timestamp) use ($class) {
+        $notificationFactory->addType($type, function ($notifier, $notifiable, $read, $timestamp) use ($class) {
             return new $class($notifier, $notifiable, $read, $timestamp);
         });
     }
