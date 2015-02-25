@@ -2,10 +2,6 @@
 
 namespace Fourum\Support;
 
-use Carbon\Carbon;
-use Fourum\Notification\NotifierInterface;
-use Fourum\Notification\NotifiableInterface;
-
 abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
     /**
@@ -15,12 +11,7 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $notificationFactory = $this->app->make('Fourum\Notification\NotificationFactory');
 
-        $notificationFactory->addType($class::TYPE, function (
-            NotifierInterface $notifier,
-            NotifiableInterface $notifiable,
-            $read,
-            Carbon $timestamp
-        ) use ($class) {
+        $notificationFactory->addType($class::TYPE, function ($notifier, $notifiable, $read, $timestamp) use ($class) {
             return new $class($notifier, $notifiable, $read, $timestamp);
         });
     }
