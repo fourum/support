@@ -2,10 +2,26 @@
 
 namespace Fourum\Support;
 
+use Fourum\Model\PackagesEnabled;
 use Illuminate\Support\Facades\Schema;
 
 abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
 {
+    /**
+     * @return string
+     */
+    abstract public function getPackageName();
+
+    /**
+     * @return string
+     */
+    abstract public function getPackageDescription();
+
+    /**
+     * @return bool
+     */
+    abstract public function isPackage();
+
     /**
      * @param string $class
      */
@@ -47,5 +63,14 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
     {
         $fileRepo = $this->app->make('Fourum\Setting\Filesystem\SettingRepository');
         $fileRepo->addPath($path);
+    }
+
+    protected function checkPackageEnabled()
+    {
+        if (! PackagesEnabled::isEnabled(get_class($this))) {
+            return false;
+        }
+
+        return true;
     }
 }
