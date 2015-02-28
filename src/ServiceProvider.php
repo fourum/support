@@ -23,6 +23,15 @@ abstract class ServiceProvider extends \Illuminate\Support\ServiceProvider
     abstract public function isPackage();
 
     /**
+     * @param string $path
+     */
+    protected function loadSettingsFrom($path)
+    {
+        $fileRepo = $this->app->make('Fourum\Setting\Filesystem\SettingRepository');
+        $fileRepo->addPath($path);
+    }
+
+    /**
      * @param string $class
      */
     protected function setupNotifications($class)
